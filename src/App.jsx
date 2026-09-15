@@ -423,7 +423,7 @@ function Letter({ onNext }) {
             I love you more than words can ever say. Happy Birthday!
           </p>
           <p className="font-bold text-pink-600 text-right mb-8 text-sm md:text-base">
-            Yours always,<br/>Nitish
+            Yours always,<br/>NITHISH
           </p>
           
           <button onClick={onNext} className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-bold flex justify-center items-center gap-2 active:scale-95 transition-transform">
@@ -452,7 +452,7 @@ function Finale() {
       <h1 className="text-5xl font-bold text-white mb-6 drop-shadow-xl">
         DHARSHINI!
       </h1>
-      <p className="text-pink-200">Made with love by Nitish</p>
+      <p className="text-pink-200">Made with love by NITHISH</p>
       
       <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 10, ease: "linear" }} className="mt-12 flex justify-center">
         <Heart size={60} className="text-pink-500 fill-pink-500" />
