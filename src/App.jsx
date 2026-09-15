@@ -11,6 +11,14 @@ const images = [
   '/images/IMG_5838.jpg',
 ]
 
+// Preload images in the background to prevent delay on mobile
+if (typeof window !== 'undefined') {
+  images.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+}
+
 const messages = [
   "Your laugh is my absolute favorite sound",
   "You believed in me when I didn't",
