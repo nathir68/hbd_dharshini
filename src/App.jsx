@@ -32,9 +32,10 @@ export default function App() {
         {step === 1 && <Tree key="tree" onNext={nextStep} />}
         {step === 2 && <Cake key="cake" onNext={nextStep} />}
         {step === 3 && <Balloons key="balloons" onNext={nextStep} />}
-        {step === 4 && <MemoryLane key="memory" onNext={nextStep} />}
-        {step === 5 && <Letter key="letter" onNext={nextStep} />}
-        {step === 6 && <Finale key="finale" />}
+        {step === 4 && <Coupons key="coupons" onNext={nextStep} />}
+        {step === 5 && <MemoryLane key="memory" onNext={nextStep} />}
+        {step === 6 && <Letter key="letter" onNext={nextStep} />}
+        {step === 7 && <Finale key="finale" />}
       </AnimatePresence>
     </div>
   )
@@ -209,51 +210,146 @@ function Cake({ onNext }) {
 
 function Balloons({ onNext }) {
   const [popped, setPopped] = useState([])
+  const [activeMsg, setActiveMsg] = useState("")
+
+  const balloonStyles = [
+    { x: -80, y: 40, color: 'from-pink-400 to-rose-500', rotate: -15 },
+    { x: -40, y: 10, color: 'from-purple-400 to-pink-500', rotate: -5 },
+    { x: 0, y: 0, color: 'from-rose-400 to-red-500', rotate: 0 },
+    { x: 40, y: 10, color: 'from-fuchsia-400 to-purple-600', rotate: 5 },
+    { x: 80, y: 40, color: 'from-pink-500 to-rose-600', rotate: 15 },
+  ]
 
   const handlePop = (index) => {
     if (!popped.includes(index)) {
       setPopped([...popped, index])
-      confetti({ particleCount: 30, spread: 40, origin: { y: 0.5 }, colors: ['#f472b6', '#c084fc'] })
+      setActiveMsg(messages[index])
+      confetti({ particleCount: 40, spread: 50, origin: { y: 0.4 }, colors: ['#f472b6', '#c084fc', '#fb7185'] })
     }
   }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col items-center w-full px-6 z-10 py-10">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col items-center w-full px-6 z-10 py-10 min-h-screen justify-center">
       <h2 className="text-3xl font-bold text-white mb-2 text-center">Pop the balloons 🎈</h2>
-      <p className="text-pink-300/80 mb-8 text-center text-sm">Pop them to find out why you're special to me</p>
+      <p className="text-pink-300/80 mb-16 text-center text-sm">Pop them to find out why you're special to me</p>
       
-      <div className="flex flex-col gap-4 w-full max-w-md">
-        {messages.map((msg, i) => (
-          <div key={i} className="relative w-full min-h-[70px] flex items-center justify-center">
-            {!popped.includes(i) ? (
-              <motion.div
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: [0, -5, 0], opacity: 1 }}
-                transition={{ y: { repeat: Infinity, duration: 2 + i * 0.3 }, opacity: { delay: i * 0.2 } }}
-                onClick={() => handlePop(i)}
-                className="w-14 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-t-[50%] rounded-b-[40%] cursor-pointer shadow-lg relative flex items-center justify-center"
-              >
-                 <div className="absolute -bottom-2 w-1 h-3 bg-white/50"></div>
-                 <span className="text-white font-bold text-xs">Pop!</span>
-              </motion.div>
-            ) : (
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="w-full p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-pink-400/30 text-center text-pink-100 shadow-xl"
-              >
-                {msg}
-              </motion.div>
-            )}
-          </div>
-        ))}
+      {/* Balloon Bouquet */}
+      <div className="relative w-full h-[250px] flex justify-center mb-12">
+        {messages.map((msg, i) => {
+          const style = balloonStyles[i];
+          const isPopped = popped.includes(i);
+          return (
+            <AnimatePresence key={i}>
+              {!isPopped && (
+                <motion.div
+                  initial={{ y: 200, opacity: 0 }}
+                  animate={{ y: style.y, x: style.x, rotate: style.rotate, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{ 
+                    y: { type: "spring", bounce: 0.4, duration: 1, delay: i * 0.1 },
+                    x: { type: "spring", bounce: 0.4, duration: 1, delay: i * 0.1 },
+                  }}
+                  className="absolute cursor-pointer group flex flex-col items-center"
+                  onClick={() => handlePop(i)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  {/* Realistic Balloon */}
+                  <div className={`w-16 h-[76px] bg-gradient-to-br ${style.color} shadow-[inset_-5px_-5px_15px_rgba(0,0,0,0.15)] relative rounded-[50%_50%_50%_50%_/_40%_40%_60%_60%]`}>
+                    {/* Shine */}
+                    <div className="absolute top-2 left-2 w-3 h-6 bg-white/40 rounded-full blur-[1px] transform rotate-[-20deg]"></div>
+                    {/* Knot */}
+                    <div className={`absolute -bottom-[4px] left-1/2 -translate-x-1/2 w-3 h-2 bg-gradient-to-br ${style.color} rounded-full`}></div>
+                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/90 font-bold text-[10px] uppercase tracking-wider drop-shadow-md">Pop</span>
+                  </div>
+                  {/* String */}
+                  <svg width="20" height="80" className="opacity-50 mt-1">
+                    <path d="M10,0 Q20,20 10,40 T10,80" fill="none" stroke="white" strokeWidth="1" />
+                  </svg>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          )
+        })}
       </div>
 
-      {popped.length === messages.length && (
-        <motion.button initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} onClick={onNext} className="mt-10 px-8 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/20 rounded-full flex items-center gap-2 text-white transition-all">
-          Keep going <ArrowRight size={18} />
-        </motion.button>
-      )}
+      {/* Message Display Area */}
+      <div className="h-24 flex items-center justify-center w-full max-w-sm">
+        <AnimatePresence mode="wait">
+          {activeMsg && (
+            <motion.div
+              key={activeMsg}
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.9 }}
+              className="bg-white/10 backdrop-blur-md border border-pink-400/30 text-pink-100 p-5 rounded-2xl shadow-xl text-center w-full font-medium"
+            >
+              {activeMsg}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <AnimatePresence>
+        {popped.length === messages.length && (
+          <motion.button initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} onClick={onNext} className="mt-10 px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-500 shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 rounded-full flex items-center gap-2 text-white font-bold transition-all">
+            See your gifts <ArrowRight size={18} />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}
+
+const COUPONS = [
+  { title: "Midnight Drive", desc: "Redeem for a late-night drive with your favorite playlist.", icon: "🚗" },
+  { title: "Unlimited Cuddles", desc: "Valid anytime, anywhere. No expiration date.", icon: "🫂" },
+  { title: "Dinner on Me", desc: "Your choice of food. I'm paying and bringing it to you.", icon: "🍕" }
+]
+
+function Coupons({ onNext }) {
+  const [idx, setIdx] = useState(0)
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col items-center w-full px-6 z-10 py-10 min-h-screen justify-center">
+      <h2 className="text-3xl font-bold text-pink-200 mb-2 text-center">Your Gifts 🎟️</h2>
+      <p className="text-pink-300/80 mb-12 text-center text-sm">Use them wisely, myiluu.</p>
+      
+      <div className="relative w-full max-w-[300px] h-[200px] perspective-1000 mb-12">
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={idx}
+            initial={{ x: 100, opacity: 0, rotate: 10 }}
+            animate={{ x: 0, opacity: 1, rotate: (idx % 2 === 0 ? -3 : 3) }}
+            exit={{ x: -100, opacity: 0, rotate: -10 }}
+            transition={{ type: "spring", bounce: 0.3 }}
+            className="absolute w-full h-full bg-[#fdfbf7] rounded-2xl shadow-2xl flex border-l-8 border-pink-500 overflow-hidden"
+          >
+            {/* Ticket Tear edge */}
+            <div className="absolute right-12 top-0 bottom-0 w-4 flex flex-col justify-between py-2">
+              {[...Array(8)].map((_, i) => <div key={i} className="w-4 h-4 rounded-full bg-[#2a1b38] -mr-2" />)}
+            </div>
+            
+            <div className="flex-1 p-6 pr-14 flex flex-col justify-center">
+              <div className="text-4xl mb-3">{COUPONS[idx].icon}</div>
+              <h3 className="font-bold text-gray-800 text-xl mb-2">{COUPONS[idx].title}</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">{COUPONS[idx].desc}</p>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      <div className="flex flex-col items-center w-full max-w-[280px]">
+        {idx < COUPONS.length - 1 ? (
+          <button onClick={() => setIdx(i => i + 1)} className="px-8 py-3 w-full bg-pink-500 text-white rounded-full font-medium active:scale-95 transition-transform">
+            Next ticket
+          </button>
+        ) : (
+          <button onClick={onNext} className="px-8 py-3 w-full bg-purple-600 text-white rounded-full font-medium flex justify-center items-center gap-2 active:scale-95 transition-transform">
+            Walk down memory lane <ArrowRight size={18} />
+          </button>
+        )}
+      </div>
     </motion.div>
   )
 }
@@ -364,6 +460,7 @@ function Finale() {
     </motion.div>
   )
 }
+
 
 
 
