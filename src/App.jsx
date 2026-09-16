@@ -420,18 +420,16 @@ function Letter({ onNext }) {
         <motion.div initial={{ scale: 0.8, opacity: 0, y: 50 }} animate={{ scale: 1, opacity: 1, y: 0 }} className="bg-[#fdfbf7] text-gray-800 p-6 md:p-8 rounded-2xl shadow-2xl relative w-full max-w-md max-h-[85dvh] overflow-y-auto">
           <p className="font-bold text-xl mb-4 text-pink-600">Dear Dharshini,</p>
           <p className="mb-4 leading-relaxed text-sm md:text-base">
-            Happy 20th Birthday, myiluu! ❤️
+            Happy 20th Birthday, miyulu! ❤️
           </p>
           <p className="mb-4 leading-relaxed text-sm md:text-base">
-            I don't think I tell you this enough, but meeting you has been one of the best things that's ever happened to me. 
-            Thank you for being patient with me, making me laugh, listening to my endless talks, and loving me even on the days I'm difficult.
+            Unkitta idha naan podhumana alavukku solli irukkena nu theriyala, aana unna sandhichadhu enakku nadandha romba azhagana vishayangal la onnu. En kooda porumaiya irundhadhukkum, enna sirikka vechadhukkum, en mudivilla pechukala ketadhukkum, naan kashtama irukkura naatkal layum enna love pannadhukkum romba nandri.
           </p>
           <p className="mb-6 leading-relaxed text-sm md:text-base">
-            No matter how busy life gets, I hope you always remember one thing... you'll always be my favorite person. 
-            I love you more than words can ever say. Happy Birthday!
+            Vaazhkai evlo busy aanaalum, nee eppovume oru vishayatha nyabagam vechuko... Nee eppovume enakku romba pidicha person ah iruppa. Vaarthaigalaala solla mudiyadha alavukku naan unna love panren. Happy Birthday! ❤️
           </p>
           <p className="font-bold text-pink-600 text-right mb-8 text-sm md:text-base">
-            Yours always,<br/>NITHISH
+            Yours always,<br/>Nithish
           </p>
           
           <button onClick={onNext} className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-bold flex justify-center items-center gap-2 active:scale-95 transition-transform">
@@ -460,7 +458,7 @@ function Finale() {
       <h1 className="text-5xl font-bold text-white mb-6 drop-shadow-xl">
         DHARSHINI!
       </h1>
-      <p className="text-pink-200">Made with love by NITHISH</p>
+      <p className="text-pink-200">Made with love by Nithish</p>
       
       <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 10, ease: "linear" }} className="mt-12 flex justify-center">
         <Heart size={60} className="text-pink-500 fill-pink-500" />
